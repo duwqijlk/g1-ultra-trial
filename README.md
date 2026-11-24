@@ -1,26 +1,22 @@
 # g1-ultra-trial
 
-Shadowrocket module: Google One Ultra 1-month free trial SKU rewrite.
+G1 ACQ v7.5.0 with exactly one mapping changed:
 
-Mirrors the shared body-rewrite rule:
+- Original: `"g1.ios.20tb.m.v2": "g1.20tb.3months_ip_90p.acq"`
+- Changed:  `"g1.ios.20tb.m.v2": "g1.ai.ultra.1month_eft.acq"` (Google AI Ultra, 1-month free trial)
 
-- URL pattern: `^https://one\.google\.com/ai.*$`
-- Body regex: `g1\.ios\.20tb\.m\.v2`
-- Replacement: `g1.ai.ultra.1month_eft.acq`
-
-This is the free-trial version, not the 90p (10%-price) version. The script
-only rewrites the SKU ID string in the response body; it does not change any
-price fields. The actual plan name, trial period and renewal price must be
-checked on the App Store checkout screen before confirming.
+Everything else is byte-identical to the original `crhywun/g1-acq@v7.5.0`:
+`g1-acq.js` is 10182 bytes before and after (1 line changed out of 269),
+`g1-sku-report.js` is untouched. The `.sgmodule` only changes the module
+name/description and the two script-path URLs so they point at this repo.
 
 ## Install in Shadowrocket
 
-Add this module URL:
-
 ```
-https://cdn.jsdelivr.net/gh/duwqijlk/g1-ultra-trial@main/g1-ultra-trial.sgmodule
+https://cdn.jsdelivr.net/gh/duwqijlk/g1-ultra-trial@main/g1-acq-v7.sgmodule
 ```
 
-Disable any other G1 rewrite modules (e.g. G1 ACQ) while using this one.
-HTTPS decryption must be on, the Shadowrocket certificate installed and
-trusted, and `one.google.com` must be in the MITM hostname list.
+Disable the original G1 ACQ while using this one (they must not both rewrite).
+Do NOT reinstall or regenerate the Shadowrocket certificate for this module:
+it uses the same MITM hostname (`one.google.com`) as the original, so the
+certificate that already works with the original module works with this one.
