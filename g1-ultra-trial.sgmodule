@@ -1,0 +1,13 @@
+#!name=G1 Ultra Trial
+#!desc=v2: Body rewrite rule from the shared screenshot: ^https://one.google.com/ai.*$ , g1.ios.20tb.m.v2 -> g1.ai.ultra.1month_eft.acq (Google AI Ultra 1-month free trial). Only rewrites the SKU ID, does not change price fields.
+#!system=ios
+
+[Rule]
+# Block UDP 443 so QUIC falls back to TCP, same as the original g1-acq module.
+AND,((PROTOCOL,UDP),(DEST-PORT,443)),REJECT-NO-DROP
+
+[Script]
+g1-ultra-trial = type=http-response,pattern=^https:\/\/one\.google\.com\/ai.*$,requires-body=1,max-size=0,script-path=https://cdn.jsdelivr.net/gh/duwqijlk/g1-ultra-trial@main/g1-ultra-trial.js
+
+[MITM]
+hostname = %APPEND% one.google.com
